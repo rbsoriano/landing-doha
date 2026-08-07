@@ -56,7 +56,7 @@ const FormSection = () => {
     setForm((p) => ({ ...p, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading || submitted) return;
     if (!form.nome || !form.email || !form.telefone || !form.nome_empresa || !form.faturamento_mensal || !form.segmento || form.ja_investiu_trafego === null) {
@@ -70,22 +70,52 @@ const FormSection = () => {
       setError("Por favor, insira um número de telefone válido com DDD."); return;
     }
     setLoading(true); setError("");
-    const formData = new URLSearchParams();
-    formData.append("nome", form.nome);
-    formData.append("email", form.email);
-    formData.append("telefone", form.telefone);
-    formData.append("nome_empresa", form.nome_empresa);
-    formData.append("faturamento_mensal", form.faturamento_mensal);
-    formData.append("segmento", form.segmento);
-    formData.append("ja_investiu_trafego", form.ja_investiu_trafego ? "Sim" : "Não");
-    setTimeout(() => {
-      setSubmitted(true); setLoading(false);
-      if (typeof window.fbq === 'function') window.fbq('track', 'Purchase');
-    }, 1500);
-    fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData, mode: "no-cors" }).catch(() => {
-      setSubmitted(false); setLoading(false);
-      setError("Erro ao enviar. Verifique sua conexão e tente novamente.");
-    });
+
+    const now = new Date();
+    const dataEnvio = now.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+    const timestamp = now.toISOString();
+
+    const payload = {
+      nome: form.nome,
+      email: form.email,
+      telefone: form.telefone,
+      nome_empresa: form.nome_empresa,
+      faturamento_mensal: form.faturamento_mensal,
+      segmento: form.segmento,
+      ja_investiu_trafego: form.ja_investiu_trafego ? "Sim" : "Não",
+      data_envio: dataEnvio,
+      timestamp: timestamp,
+    };
+
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json().catch(() => ({ success: true }));
+
+      if (data && data.success !== false) {
+        setSubmitted(true);
+        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+      } else {
+        setError(data.error || "Erro ao salvar os dados. Tente novamente.");
+      }
+    } catch (err) {
+      // Fallback network check: if fetch was redirected cleanly or succeeds silently
+      try {
+        const fallbackFormData = new URLSearchParams();
+        Object.entries(payload).forEach(([k, v]) => fallbackFormData.append(k, v as string));
+        await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fallbackFormData, mode: "no-cors" });
+        setSubmitted(true);
+        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+      } catch (fallbackErr) {
+        setError("Erro de conexão ao enviar o formulário. Por favor, tente novamente.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputCls = "w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all";

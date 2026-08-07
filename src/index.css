@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 100 100% 50%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 0%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 100 100% 50%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 100 100% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 100 100% 50%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 100 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply text-primary;
+  }
+
+  .glass-card {
+    @apply bg-card/90 border border-border/30 rounded-2xl shadow-lg;
+  }
+
+  .glow {
+    box-shadow: 0 0 50px -15px hsl(100 70% 45% / 0.2);
+  }
+
+  .glow-sm {
+    box-shadow: 0 0 30px -10px hsl(100 70% 45% / 0.12);
+  }
+}
+
+/* Fade in on scroll animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.fade-up-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.fade-up-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.fade-up-delay-4 {
+  transition-delay: 0.4s;
+}
+
+/* Marquee animation for client logos */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+}
+
+/* Subtle grid background */
+.bg-warm {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 40%, hsl(100 40% 20% / 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 30% 60%, hsl(30 30% 15% / 0.1) 0%, transparent 60%);
+}
+
+/* Hero marquee banners */
+@keyframes marquee-hero {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-hero-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-hero {
+  animation: marquee-hero 20s linear infinite;
+}
+
+.animate-marquee-hero-reverse {
+  animation: marquee-hero-reverse 20s linear infinite;
+}
+
+/* Pulse light animation for buttons */
+@keyframes pulse-light {
+  0%, 100% {
+    box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.animate-pulse-light {
+  animation: pulse-light 2s infinite ease-in-out;
+}

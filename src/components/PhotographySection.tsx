@@ -1,4 +1,5 @@
 import { Camera, Utensils, Smartphone } from "lucide-react";
+import LazyImage from "@/components/LazyImage";
 import img1 from "@/assets/DSC04207.webp";
 import img2 from "@/assets/DSC04172.webp";
 import img3 from "@/assets/DSC04164.webp";
@@ -27,23 +28,17 @@ const photos = [
 
 const PhotographySection = () => {
   return (
-    <section className="py-20 md:py-28 bg-black relative overflow-hidden border-t border-white/5">
-      
-      {/* Background Elements */}
+    <section className="py-20 md:py-28 bg-black relative overflow-hidden border-t border-white/5 content-auto">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] pointer-events-none rounded-full" />
-      
-      <div className="container relative z-10">
-        
-        {/* Header Content */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
 
-          
+      <div className="container relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <h2 className="fade-up fade-up-delay-1 text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-6 leading-[1.1]">
             Comemos primeiro <span className="text-gradient">com os olhos.</span>
           </h2>
-          
+
           <p className="fade-up fade-up-delay-2 text-muted-foreground text-lg sm:text-xl mb-8">
-            Produzimos fotos profissionais de alto padrão que geram desejo imediato. 
+            Produzimos fotos profissionais de alto padrão que geram desejo imediato.
             É assim que transformamos seu cardápio em uma máquina de vendas irresistível.
           </p>
 
@@ -70,23 +65,23 @@ const PhotographySection = () => {
           </div>
         </div>
 
-        {/* CSS Columns Masonry - Layout Perfeito */}
         <div className="columns-2 md:columns-4 gap-3 md:gap-4 space-y-3 md:space-y-4">
           {photos.map((photo, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 break-inside-avoid"
             >
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10" />
-              <img 
-                src={photo.src} 
-                alt={photo.alt} 
+              <LazyImage
+                src={photo.src}
+                alt={photo.alt}
+                width={450}
+                height={600}
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

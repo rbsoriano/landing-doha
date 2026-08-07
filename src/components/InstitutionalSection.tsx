@@ -1,3 +1,4 @@
+import LazyImage from "@/components/LazyImage";
 import photoTeam from "@/assets/FOTOS DOHA (3).webp";
 import photoOffice from "@/assets/857bfa55-ec52-4247-b8dd-d8422af77582-Photoroom.webp";
 import photoCulture from "@/assets/6.webp";
@@ -10,24 +11,24 @@ const photos = [
 
 const InstitutionalSection = () => {
   return (
-    <section className="py-20 md:py-28 overflow-hidden bg-background">
+    <section className="py-20 md:py-28 overflow-hidden bg-background content-auto">
       <div className="container">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          
-          {/* Left Side: Polaroid-style Photos - stacked vertically with slight offsets */}
           <div className="w-full lg:w-[45%] fade-up">
             <div className="flex flex-col items-center gap-6 md:gap-8">
               {photos.map((photo, i) => (
                 <div
                   key={photo.label}
-                  className={`relative bg-white p-2 pb-12 rounded shadow-2xl w-[75%] sm:w-[65%] md:w-[60%] hover:scale-105 transition-transform duration-500`}
+                  className="relative bg-white p-2 pb-12 rounded shadow-2xl w-[75%] sm:w-[65%] md:w-[60%] hover:scale-105 transition-transform duration-500"
                   style={{
-                    transform: `rotate(${photo.rotate}) translateX(${i % 2 === 0 ? '-15px' : '15px'})`,
+                    transform: `rotate(${photo.rotate}) translateX(${i % 2 === 0 ? "-15px" : "15px"})`,
                   }}
                 >
-                  <img
+                  <LazyImage
                     src={photo.src}
                     alt={photo.alt}
+                    width={480}
+                    height={320}
                     className="w-full h-44 sm:h-52 md:h-56 object-cover rounded-sm"
                   />
                   <p
@@ -41,7 +42,6 @@ const InstitutionalSection = () => {
             </div>
           </div>
 
-          {/* Right Side: Text */}
           <div className="w-full lg:w-[55%]">
             <span className="inline-block text-sm font-heading font-bold tracking-[0.2em] uppercase mb-4 text-primary fade-up">
               QUEM SOMOS
@@ -65,7 +65,6 @@ const InstitutionalSection = () => {
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </section>

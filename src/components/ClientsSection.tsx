@@ -1,3 +1,4 @@
+import LazyImage from "@/components/LazyImage";
 import clientAncoradouro from "@/assets/ancoradouro.webp";
 import clientSabores from "@/assets/client-sabores.webp";
 import clientAcai from "@/assets/client-acai.webp";
@@ -13,8 +14,16 @@ import clientHashi from "@/assets/hashi.webp";
 import clientLionBurguers from "@/assets/lionburguers.webp";
 import clientPizzaClock from "@/assets/pizzaclock.webp";
 import clientVierbrauer from "@/assets/vierbrauer.webp";
+import clientPontero from "@/assets/client-pontero.webp";
+import clientJamparrilla from "@/assets/client-jamparrilla.webp";
+import clientImperial from "@/assets/client-imperial.webp";
+import clientLarikas from "@/assets/client-larikas.webp";
 
 const clients = [
+  { name: "Ponteiro", logo: clientPontero },
+  { name: "Jampa Rrilla", logo: clientJamparrilla },
+  { name: "Imperial Pizza", logo: clientImperial },
+  { name: "Larika's", logo: clientLarikas },
   { name: "Ancoradouro", logo: clientAncoradouro },
   { name: "Hashi", logo: clientHashi },
   { name: "Vierbrauer", logo: clientVierbrauer },
@@ -32,13 +41,25 @@ const clients = [
   { name: "Pizza Clock", logo: clientPizzaClock },
 ];
 
+const ClientLogo = ({ name, logo }: { name: string; logo: string }) => (
+  <div className="flex-shrink-0 glass-card px-4 md:px-6 py-3 md:py-4 mx-3 md:mx-4 flex items-center justify-center min-w-[140px] md:min-w-[180px] min-h-[80px] md:min-h-[100px]">
+    <LazyImage
+      src={logo}
+      alt={name}
+      width={128}
+      height={64}
+      className="h-12 md:h-16 w-auto object-contain rounded-lg pointer-events-none"
+    />
+  </div>
+);
+
 const ClientsSection = () => {
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="py-20 md:py-28 bg-secondary overflow-hidden">
+    <section className="py-20 md:py-28 bg-secondary overflow-hidden content-auto">
       <div className="container text-center mb-10">
         <h2 className="fade-up text-3xl md:text-4xl font-heading font-bold mb-4">
           Alguns clientes que <span className="text-gradient">já escalamos</span>
@@ -47,31 +68,11 @@ const ClientsSection = () => {
 
       <div className="relative overflow-hidden py-4">
         <div className="flex w-max animate-marquee will-change-transform">
-          {/* Primeira metade */}
           {clients.map((client, i) => (
-            <div
-              key={`first-${i}`}
-              className="flex-shrink-0 glass-card px-4 md:px-6 py-3 md:py-4 mx-3 md:mx-4 flex items-center justify-center min-w-[140px] md:min-w-[180px] min-h-[80px] md:min-h-[100px]"
-            >
-              <img
-                src={client.logo}
-                alt={client.name}
-                className="h-12 md:h-16 w-auto object-contain rounded-lg pointer-events-none"
-              />
-            </div>
+            <ClientLogo key={`first-${client.name}-${i}`} name={client.name} logo={client.logo} />
           ))}
-          {/* Segunda metade (duplicata exata para o loop perfeito) */}
           {clients.map((client, i) => (
-            <div
-              key={`second-${i}`}
-              className="flex-shrink-0 glass-card px-4 md:px-6 py-3 md:py-4 mx-3 md:mx-4 flex items-center justify-center min-w-[140px] md:min-w-[180px] min-h-[80px] md:min-h-[100px]"
-            >
-              <img
-                src={client.logo}
-                alt={client.name}
-                className="h-12 md:h-16 w-auto object-contain rounded-lg pointer-events-none"
-              />
-            </div>
+            <ClientLogo key={`second-${client.name}-${i}`} name={client.name} logo={client.logo} />
           ))}
         </div>
       </div>

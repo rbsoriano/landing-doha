@@ -1,22 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useScrollAnimation() {
+  const rafRef = useRef<number>();
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-          } else {
-            // Only remove the animation class if the element goes below the screen.
-            // This makes it animate again when scrolling down, but not when scrolling up.
-            if (entry.boundingClientRect.top > 0) {
-              entry.target.classList.remove("visible");
-            }
+          } else if (entry.boundingClientRect.top > 0) {
+            entry.target.classList.remove("visible");
           }
-        });
+        }
       },
-      { threshold: 0.1 }
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
     );
 
     const observeElements = () => {
@@ -26,22 +24,22 @@ export function useScrollAnimation() {
       });
     };
 
-    // Initial check
     observeElements();
 
-    // Set up MutationObserver to catch lazy-loaded elements
     const mutationObserver = new MutationObserver(() => {
-      observeElements();
+      cancelAnimationFrame(rafRef.current ?? 0);
+      rafRef.current = requestAnimationFrame(observeElements);
     });
 
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    const main = document.querySelector("main");
+    if (main) {
+      mutationObserver.observe(main, { childList: true, subtree: true });
+    }
 
     return () => {
       observer.disconnect();
       mutationObserver.disconnect();
+      cancelAnimationFrame(rafRef.current ?? 0);
     };
   }, []);
 }

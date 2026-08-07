@@ -1,6 +1,5 @@
 import { Play } from "lucide-react";
 import { useState, useRef } from "react";
-import depoimentoLocal from "@/assets/depoimento-local.mp4";
 
 type Testimonial = 
     | { type: "local"; src: string; name: string; description: string }
@@ -9,7 +8,7 @@ type Testimonial =
 const testimonials: Testimonial[] = [
     {
         type: "local",
-        src: depoimentoLocal,
+        src: "/depoimento-local.mp4",
         name: "Depoimento Exclusivo",
         description: "Veja o resultado real de quem confia na DOHA.",
     },

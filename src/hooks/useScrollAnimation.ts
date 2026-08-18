@@ -9,8 +9,8 @@ export function useScrollAnimation() {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-          } else if (entry.boundingClientRect.top > 0) {
-            entry.target.classList.remove("visible");
+            // Once visible, stop observing (one-way animation — saves resources)
+            observer.unobserve(entry.target);
           }
         }
       },
@@ -26,6 +26,8 @@ export function useScrollAnimation() {
 
     observeElements();
 
+    // Watch for dynamically added elements (lazy-loaded sections)
+    // Use childList only (not subtree) on the main element for less overhead
     const mutationObserver = new MutationObserver(() => {
       cancelAnimationFrame(rafRef.current ?? 0);
       rafRef.current = requestAnimationFrame(observeElements);

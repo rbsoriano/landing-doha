@@ -40,12 +40,11 @@ const YouTubeVideoCard = ({ testimonial, isPlaying, onPlay }: { testimonial: Tes
             ) : (
                 <div className="relative w-full h-full" onClick={onPlay}>
                     <img
-                        src={`https://img.youtube.com/vi/${testimonial.id}/maxresdefault.jpg`}
+                        src={`https://img.youtube.com/vi/${testimonial.id}/hqdefault.jpg`}
                         alt={testimonial.name}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${testimonial.id}/hqdefault.jpg`; }}
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 group-hover:bg-black/20">
                         <div className="bg-primary text-primary-foreground p-4 rounded-full scale-100 group-hover:scale-110 transition-transform duration-300 shadow-xl shadow-primary/20">
@@ -66,7 +65,7 @@ const TestimonialsSection = () => {
     const [playingYoutubeId, setPlayingYoutubeId] = useState<string | null>(null);
 
     return (
-        <section id="depoimentos" className="py-20 md:py-28 bg-white text-black content-auto">
+        <section id="depoimentos" className="py-20 md:py-28 bg-white text-black">
             <div className="container">
                 <div className="text-center mb-4">
                     <span className="inline-block text-sm font-heading font-bold tracking-[0.2em] uppercase mb-4 text-primary">

@@ -75,7 +75,7 @@ const FormSection = () => {
     const dataEnvio = now.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
     const timestamp = now.toISOString();
 
-    const payload = {
+    const payload: Record<string, string> = {
       nome: form.nome,
       email: form.email,
       telefone: form.telefone,
@@ -88,31 +88,24 @@ const FormSection = () => {
     };
 
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      // Google Apps Script web apps require mode: "no-cors" from the browser.
+      // With no-cors, only "simple" content types are allowed (application/x-www-form-urlencoded).
+      // GAS reads these fields via e.parameter on the server side.
+      const formData = new URLSearchParams(payload);
+
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
+        mode: "no-cors",
       });
 
-      const data = await response.json().catch(() => ({ success: true }));
-
-      if (data && data.success !== false) {
-        setSubmitted(true);
-        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
-      } else {
-        setError(data.error || "Erro ao salvar os dados. Tente novamente.");
-      }
+      // With mode: "no-cors", the response is always opaque (status 0).
+      // We cannot read the response body, so we treat a resolved promise as success.
+      setSubmitted(true);
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
     } catch (err) {
-      // Fallback network check: if fetch was redirected cleanly or succeeds silently
-      try {
-        const fallbackFormData = new URLSearchParams();
-        Object.entries(payload).forEach(([k, v]) => fallbackFormData.append(k, v as string));
-        await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fallbackFormData, mode: "no-cors" });
-        setSubmitted(true);
-        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
-      } catch (fallbackErr) {
-        setError("Erro de conexão ao enviar o formulário. Por favor, tente novamente.");
-      }
+      setError("Erro de conexão ao enviar o formulário. Por favor, tente novamente.");
     } finally {
       setLoading(false);
     }

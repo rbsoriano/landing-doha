@@ -19,10 +19,13 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    target: "es2020",
+    // ES2018 is widely supported on older phones (Chrome 63+, Safari 12+)
+    target: "es2018",
     minify: "esbuild",
     cssCodeSplit: true,
     chunkSizeWarningLimit: 600,
+    // Inline small assets instead of creating separate HTTP requests
+    assetsInlineLimit: 4096,
     rollupOptions: {
       output: {
         manualChunks: {

@@ -13,14 +13,16 @@ function doPost(e) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var data = {};
 
-    if (e.postData && e.postData.contents) {
+    // Priority 1: form-encoded data (sent by frontend as application/x-www-form-urlencoded)
+    if (e.parameter && Object.keys(e.parameter).length > 0) {
+      data = e.parameter;
+    // Priority 2: JSON body (fallback for other clients)
+    } else if (e.postData && e.postData.contents) {
       try {
         data = JSON.parse(e.postData.contents);
       } catch (parseError) {
-        data = e.parameter || {};
+        data = {};
       }
-    } else {
-      data = e.parameter || {};
     }
 
     var now = new Date();

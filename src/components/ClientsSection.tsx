@@ -59,7 +59,7 @@ const ClientsSection = () => {
   };
 
   return (
-    <section className="py-20 md:py-28 bg-secondary overflow-hidden content-auto">
+    <section className="py-20 md:py-28 bg-secondary overflow-hidden">
       <div className="container text-center mb-10">
         <h2 className="fade-up text-3xl md:text-4xl font-heading font-bold mb-4">
           Alguns clientes que <span className="text-gradient">já escalamos</span>
@@ -67,7 +67,7 @@ const ClientsSection = () => {
       </div>
 
       <div className="relative overflow-hidden py-4">
-        <div className="flex w-max animate-marquee will-change-transform">
+        <div className="flex w-max animate-marquee" style={{ willChange: 'transform' }}>
           {clients.map((client, i) => (
             <ClientLogo key={`first-${client.name}-${i}`} name={client.name} logo={client.logo} />
           ))}

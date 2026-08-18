@@ -11,7 +11,7 @@ const photos = [
 
 const InstitutionalSection = () => {
   return (
-    <section className="py-20 md:py-28 overflow-hidden bg-background content-auto">
+    <section className="py-20 md:py-28 overflow-hidden bg-background">
       <div className="container">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <div className="w-full lg:w-[45%] fade-up">

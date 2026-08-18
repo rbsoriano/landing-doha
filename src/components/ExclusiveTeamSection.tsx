@@ -23,17 +23,14 @@ const ExclusiveTeamSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
           <button 
             onClick={scrollToForm}
-            className="group flex items-center justify-center gap-2 bg-black text-white font-heading font-bold text-sm sm:text-base px-8 py-4 rounded-xl hover:scale-105 transition-all duration-300 animate-pulse-light uppercase"
+            className="group flex items-center justify-center gap-2 bg-black text-white font-heading font-bold text-sm sm:text-base px-8 py-4 rounded-xl hover:scale-105 transition-all duration-300 uppercase shadow-[0_0_20px_4px_rgba(255,255,255,0.2)]"
           >
             Quero mais informações
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
           
           <div className="flex items-center gap-3 font-semibold text-sm sm:text-base text-black">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-100"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-black border-2 border-transparent"></span>
-            </span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-black"></span>
             Especialistas online agora
           </div>
         </div>

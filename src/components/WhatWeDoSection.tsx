@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import LazyImage from "@/components/LazyImage";
 import photo7 from "@/assets/7.webp";
 import photoCardapio from "@/assets/9d215070-afc0-4e1f-88cc-c2e7177562d5.webp";
 import photoFotos from "@/assets/FOTOS DOHA.webp";
@@ -137,10 +138,12 @@ const WhatWeDoSection = () => {
 
                 {/* Image Side */}
                 <div className="relative h-[250px] sm:h-[300px] md:h-auto md:w-[40%] lg:w-[45%] shrink-0 overflow-hidden bg-black">
-                  <img
+                  <LazyImage
                     src={card.image}
                     alt={card.title}
-                    className={`w-full h-full group-hover:scale-105 transition-transform duration-700 opacity-90 ${card.imageClassName || 'object-cover'}`}
+                    width={600}
+                    height={800}
+                    className={`w-full h-full opacity-90 ${card.imageClassName || 'object-cover'}`}
                   />
                   {/* Blending gradients to make the image blend smoothly into the card background */}
                   <div className="hidden md:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[hsl(0,0%,8%)] to-transparent z-10" />

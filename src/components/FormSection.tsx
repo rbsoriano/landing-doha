@@ -6,8 +6,7 @@ declare global {
 
 import { useState } from "react";
 import { CheckCircle } from "lucide-react";
-
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyGndUciG4_l2lrOeQeDFDKpA6vUN3xZHILc--6lYVsbu1Y-ilyp0sDJeK5JU4pmMs9w/exec";
+import { loadConfig } from "@/config/siteConfig";
 
 const segmentos = [
   "Pizzarias", "Hamburguerias", "Churrascarias / Steakhouses",
@@ -56,6 +55,66 @@ const FormSection = () => {
     setForm((p) => ({ ...p, [name]: value }));
   };
 
+  const getUTMParams = () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        campanha: params.get("utm_campaign") || "Landing Page",
+        anuncio: params.get("utm_content") || "Formulário direto",
+      };
+    } catch {
+      return { campanha: "Landing Page", anuncio: "Formulário direto" };
+    }
+  };
+
+  const sendToBase44CRM = async () => {
+    const config = loadConfig();
+    const { campanha, anuncio } = getUTMParams();
+
+    const interactions = config.crm.interactionsTemplate
+      .replace("{{campanha}}", campanha)
+      .replace("{{anuncio}}", anuncio);
+
+    const crmPayload = {
+      name: form.nome,
+      phone: form.telefone,
+      email: form.email,
+      company: form.nome_empresa,
+      origin: config.crm.origin,
+      status: config.crm.status,
+      estimated_value: config.crm.estimatedValue,
+      has_capture: config.crm.hasCapture,
+      is_local: config.crm.isLocal,
+      interactions: interactions,
+    };
+
+    const response = await fetch(config.crm.apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${config.crm.token}`,
+      },
+      body: JSON.stringify(crmPayload),
+    });
+
+    if (!response.ok) {
+      console.error("Erro ao enviar para CRM Base44:", response.status, await response.text());
+    }
+  };
+
+  const sendToGoogleSheets = async (payload: Record<string, string>) => {
+    const config = loadConfig();
+    if (!config.googleSheets.enabled) return;
+
+    const formData = new URLSearchParams(payload);
+    await fetch(config.googleSheets.scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString(),
+      mode: "no-cors",
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading || submitted) return;
@@ -71,6 +130,7 @@ const FormSection = () => {
     }
     setLoading(true); setError("");
 
+    const config = loadConfig();
     const now = new Date();
     const dataEnvio = now.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
     const timestamp = now.toISOString();
@@ -88,22 +148,18 @@ const FormSection = () => {
     };
 
     try {
-      // Google Apps Script web apps require mode: "no-cors" from the browser.
-      // With no-cors, only "simple" content types are allowed (application/x-www-form-urlencoded).
-      // GAS reads these fields via e.parameter on the server side.
-      const formData = new URLSearchParams(payload);
+      // Send to Google Sheets and CRM in parallel
+      const promises: Promise<any>[] = [sendToBase44CRM()];
+      if (config.googleSheets.enabled) {
+        promises.push(sendToGoogleSheets(payload));
+      }
 
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString(),
-        mode: "no-cors",
-      });
+      await Promise.allSettled(promises);
 
-      // With mode: "no-cors", the response is always opaque (status 0).
-      // We cannot read the response body, so we treat a resolved promise as success.
       setSubmitted(true);
-      if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+      if (config.tracking.facebookPixelEnabled && typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead');
+      }
     } catch (err) {
       setError("Erro de conexão ao enviar o formulário. Por favor, tente novamente.");
     } finally {
@@ -120,11 +176,11 @@ const FormSection = () => {
           <div className="fade-up">
             <span className="inline-block text-sm font-heading font-bold tracking-[0.2em] uppercase mb-4 text-primary">AVISO</span>
             <h2 className="text-3xl md:text-5xl font-heading font-black mb-10 leading-tight uppercase">
-              NÃO SAIA AGORA!{" "}
-              <span className="text-white/90">FALTAM</span>{" "}
+              FALTAM{" "}
               <span className="font-black text-gradient">POUCOS SEGUNDOS</span>{" "}
-              <span className="text-white/90">PARA SEU RESTAURANTE</span>{" "}
-              <span className="font-black text-gradient">MUDAR</span>.
+              <span className="text-white/90">PARA VOCÊ MUDAR A</span>{" "}
+              <span className="font-black text-gradient">REALIDADE</span>{" "}
+              <span className="text-white/90">DO SEU RESTAURANTE</span>
             </h2>
             <div className="space-y-4">
               {steps.map((step, i) => (

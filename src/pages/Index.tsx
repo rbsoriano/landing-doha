@@ -10,7 +10,6 @@ const InstitutionalSection = React.lazy(() => import("@/components/Institutional
 const WhatWeDoSection = React.lazy(() => import("@/components/WhatWeDoSection"));
 const PlansSection = React.lazy(() => import("@/components/PlansSection"));
 const ExclusiveTeamSection = React.lazy(() => import("@/components/ExclusiveTeamSection"));
-const PhotographySection = React.lazy(() => import("@/components/PhotographySection"));
 const ClientsSection = React.lazy(() => import("@/components/ClientsSection"));
 const FaqSection = React.lazy(() => import("@/components/FaqSection"));
 const Footer = React.lazy(() => import("@/components/Footer"));
@@ -38,9 +37,6 @@ const Index = () => {
       </LazySection>
       <LazySection minHeight="280px">
         <ExclusiveTeamSection />
-      </LazySection>
-      <LazySection minHeight="600px">
-        <PhotographySection />
       </LazySection>
       <LazySection minHeight="240px">
         <ClientsSection />

@@ -2,3 +2,5 @@ node_modules/
 dist/
 .vscode/
 *.mp4
+
+.DS_Store

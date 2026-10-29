@@ -1,10 +1,11 @@
 import { Play } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 type Testimonial = {
     id: string;
     name: string;
     description: string;
+    isShort?: boolean;
 };
 
 const testimonials: Testimonial[] = [
@@ -14,23 +15,28 @@ const testimonials: Testimonial[] = [
         description: "Veja o resultado real de quem confia na DOHA.",
     },
     {
-        id: "46K6ry5QLXI",
-        name: "Depoimento de Sucesso",
-        description: "Veja como transformamos o crescimento deste negócio."
+        id: "5n3C2NOcmG8",
+        name: "Caso de Sucesso",
+        description: "Veja como a DOHA transforma restaurantes.",
+        isShort: true,
     },
     {
         id: "kcYvRPxD_yI",
         name: "Resultado Real",
-        description: "Estratégias que geram retorno previsível."
+        description: "Estratégias que geram retorno previsível.",
     }
 ];
 
 const YouTubeVideoCard = ({ testimonial, isPlaying, onPlay }: { testimonial: Testimonial; isPlaying: boolean; onPlay: () => void }) => {
+    const embedUrl = testimonial.isShort
+        ? `https://www.youtube.com/embed/${testimonial.id}?autoplay=1&rel=0&modestbranding=1&loop=1&playlist=${testimonial.id}`
+        : `https://www.youtube.com/embed/${testimonial.id}?autoplay=1&rel=0&modestbranding=1`;
+
     return (
         <div className="relative aspect-[9/16] rounded-3xl overflow-hidden bg-black border border-white/10 glow-sm group cursor-pointer flex items-center justify-center">
             {isPlaying ? (
                 <iframe
-                    src={`https://www.youtube.com/embed/${testimonial.id}?autoplay=1&rel=0&modestbranding=1`}
+                    src={embedUrl}
                     title={testimonial.name}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -74,7 +80,7 @@ const TestimonialsSection = () => {
                 </div>
                 <div className="text-center mb-12">
                     <h2 className="fade-up text-3xl md:text-5xl font-heading font-bold mb-4 uppercase text-black">
-                        RESULTADOS REAIS EM CERCA DE <span className="text-primary">90 DIAS.</span><br/> ISSO É DOHA.
+                        Restaurantes com resultado.<br/> Isso é <span className="text-primary">DOHA.</span>
                     </h2>
                 </div>
 

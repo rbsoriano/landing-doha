@@ -83,7 +83,7 @@ const WhatWeDoSection = () => {
         </div>
         <div className="text-center mb-12 px-4 max-w-4xl mx-auto">
           <h2 className="fade-up text-3xl md:text-5xl font-heading font-black mb-4 uppercase leading-tight">
-            A ASSESSORIA <span className="text-primary">DOHA</span> DESENHA UMA ESTRATÉGIA DE MARKETING EXCLUSIVA PARA A <span className="text-primary">SUA NECESSIDADE</span>
+            A <span className="text-primary">DOHA</span> estrutura o marketing do seu restaurante a partir da <span className="text-primary">sua necessidade</span>
           </h2>
         </div>
 

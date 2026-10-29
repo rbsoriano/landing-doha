@@ -34,8 +34,8 @@ const FaqSection = () => {
         <div className="grid md:grid-cols-[1fr_1.5fr] gap-12 lg:gap-20 items-start">
           <div className="fade-up">
             <h2 className="text-3xl md:text-4xl font-heading font-black uppercase leading-tight mb-4">
-              PERGUNTAS{" "}
-              <span className="text-gradient">FREQUENTES</span>
+              Antes de{" "}
+              <span className="text-gradient">falar com a gente</span>
             </h2>
             <p className="text-white/50 text-sm leading-relaxed">
               Ficou com alguma dúvida sobre a DOHA? Talvez ela esteja aqui.

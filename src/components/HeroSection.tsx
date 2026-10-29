@@ -3,8 +3,8 @@ import LazyImage from "@/components/LazyImage";
 import heroClient from "@/assets/FOTOS DOHA (3).webp";
 
 const marqueeItems = [
-  "+10 CLIENTES ATIVOS",
-  "+2M EM VENDAS PARA OS NOSSOS CLIENTES",
+  "+100 CLIENTES ATIVOS",
+  "+50M GERADOS EM VENDAS",
   "+5 ANOS DE EXPERIÊNCIA",
 ];
 
@@ -32,15 +32,13 @@ const HeroSection = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] h-[300px] md:h-[400px] bg-primary/20 lg:bg-primary/10 rounded-full blur-[50px] md:blur-[120px] pointer-events-none" />
 
         <div className="relative z-10 max-w-2xl mx-auto lg:mx-0 w-full text-center lg:text-left">
-          <h1 className="fade-up text-[1.75rem] leading-[1.1] sm:text-3xl md:text-4xl lg:text-[2.6rem] xl:text-5xl font-heading font-black mb-4 sm:mb-6">
-            Fazemos o seu restaurante vender{" "}
-            <span className="text-gradient">15 reais</span> a cada{" "}
-            <span className="text-gradient">UM</span> investido em{" "}
-            <span className="text-gradient">Tráfego Pago.</span>
+          <h1 className="fade-up text-[1.75rem] leading-[1.1] sm:text-3xl md:text-4xl lg:text-[2.6rem] xl:text-5xl font-heading font-black mb-4 sm:mb-6 uppercase">
+            Seu restaurante precisa de uma assessoria que{" "}
+            <span className="text-gradient">nasceu dentro do food service</span>
           </h1>
 
           <p className="fade-up fade-up-delay-1 text-sm sm:text-base md:text-lg text-white mb-8 sm:mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed drop-shadow-md">
-            Esse é o resultado que geramos para os Donos de restaurante que utilizaram o nosso método, e alcançaram esse resultado em cerca de <strong>90 dias</strong>.
+            Somos uma agência especializada em marketing gastronômico, focada em transformar restaurantes em máquinas de vendas previsíveis e escaláveis.
           </p>
 
           <button
